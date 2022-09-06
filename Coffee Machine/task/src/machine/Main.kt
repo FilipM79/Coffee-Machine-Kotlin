@@ -4,7 +4,6 @@ const val WATER_PER_ESPRESSO = 250
 const val WATER_PER_LATTE = 350
 const val WATER_PER_CAPPUCCINO = 200
 
-const val MILK_PER_ESPRESSO = 0
 const val MILK_PER_LATTE = 75
 const val MILK_PER_CAPPUCCINO = 100
 
@@ -24,147 +23,150 @@ fun main() {
     var disposableCupsInMachine = 9
     var moneyInMachine = 550
 
-    println("The coffee machine has:\n" +
-        "$waterInMachine ml of water\n" +
-        "$milkInMachine ml of milk\n" +
-        "$coffeeBeansInMachine g of coffee beans\n" +
-        "$disposableCupsInMachine disposable cups\n" +
-        "\$$moneyInMachine of money\n"
-    )
+    var exit = false
 
-    print("Write action (buy, fill, take): > ")
-    val action = readln()
-    val choiceOfCoffee: String
+    while (!exit) {
+        var back = false
+        print("Write action (buy, fill, take, remaining, exit): > ")
+        when (readln()) {
+            "buy" -> {
+                while (!back) {
+                    print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: > ")
+                    when (readln()) {
+                        "1" -> {
+                            when {
+                                waterInMachine - WATER_PER_ESPRESSO < 0 -> {
+                                    println("Sorry, not enough water!\n")
+                                    back = true
+                                }
 
+                                coffeeBeansInMachine - COFFEE_BEANS_PER_ESPRESSO < 0 -> {
+                                    println("Sorry, not enough coffee beans!\n")
+                                    back = true
+                                }
+                                disposableCupsInMachine == 0 -> {
+                                    println("Sorry, not enough disposable cups!\n")
+                                    back = true
+                                }
 
-    when (action) {
-        "buy" -> {
+                                else -> {
+                                    println("I have enough resources, making you a coffee!\n")
+                                    waterInMachine -= WATER_PER_ESPRESSO
+                                    coffeeBeansInMachine -= COFFEE_BEANS_PER_ESPRESSO
+                                    disposableCupsInMachine -= 1
+                                    moneyInMachine += PRICE_OF_ESPRESSO
+                                    back = true
+                                }
+                            }
+                        }
 
-            print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: > ")
-            choiceOfCoffee = readln()
+                        "2" -> {
+                            when {
+                                waterInMachine - WATER_PER_LATTE < 0 -> {
+                                    println("Sorry, not enough water!\n")
+                                    back = true
+                                }
+                                milkInMachine - MILK_PER_LATTE < 0 -> {
+                                    println("Sorry, not enough milk!\n")
+                                    back = true
+                                }
+                                coffeeBeansInMachine - COFFEE_BEANS_PER_LATTE < 0 -> {
+                                    println("Sorry, not enough coffee beans!\n")
+                                    back = true
+                                }
+                                disposableCupsInMachine == 0 -> {
+                                    println("Sorry, not enough disposable cups!\n")
+                                    back = true
+                                }
 
-            when (choiceOfCoffee) {
-                "1" -> {
-                    waterInMachine -= WATER_PER_ESPRESSO
-                    milkInMachine -= MILK_PER_ESPRESSO
-                    coffeeBeansInMachine -= COFFEE_BEANS_PER_ESPRESSO
-                    disposableCupsInMachine -= 1
-                    moneyInMachine += PRICE_OF_ESPRESSO
+                                else -> {
+                                    println("I have enough resources, making you a coffee!\n")
+                                    waterInMachine -= WATER_PER_LATTE
+                                    milkInMachine -= MILK_PER_LATTE
+                                    coffeeBeansInMachine -= COFFEE_BEANS_PER_LATTE
+                                    disposableCupsInMachine -= 1
+                                    moneyInMachine += PRICE_OF_LATTE
+                                    back = true
+                                }
+                            }
+                        }
 
-                    println("\nThe coffee machine has:\n" +
-                            "$waterInMachine ml of water\n" +
-                            "$milkInMachine ml of milk\n" +
-                            "$coffeeBeansInMachine g of coffee beans\n" +
-                            "$disposableCupsInMachine disposable cups\n" +
-                            "\$$moneyInMachine of money\n"
-                    )
-                }
+                        "3" -> {
+                            when {
+                                waterInMachine - WATER_PER_CAPPUCCINO < 0 -> {
+                                    println("Sorry, not enough water!\n")
+                                    back = true
+                                }
+                                milkInMachine - MILK_PER_CAPPUCCINO < 0 -> {
+                                    println("Sorry, not enough milk!\n")
+                                    back = true
+                                }
+                                coffeeBeansInMachine - COFFEE_BEANS_PER_CAPPUCCINO < 0 -> {
+                                    println("Sorry, not enough coffee beans!\n")
+                                    back = true
+                                }
+                                disposableCupsInMachine == 0 -> {
+                                    println("Sorry, not enough disposable cups!\n")
+                                    back = true
+                                }
 
-                "2" -> {
-                    waterInMachine -= WATER_PER_LATTE
-                    milkInMachine -= MILK_PER_LATTE
-                    coffeeBeansInMachine -= COFFEE_BEANS_PER_LATTE
-                    disposableCupsInMachine -= 1
-                    moneyInMachine += PRICE_OF_LATTE
+                                else -> {
+                                    println("I have enough resources, making you a coffee!\n")
+                                    waterInMachine -= WATER_PER_CAPPUCCINO
+                                    milkInMachine -= MILK_PER_CAPPUCCINO
+                                    coffeeBeansInMachine -= COFFEE_BEANS_PER_CAPPUCCINO
+                                    disposableCupsInMachine -= 1
+                                    moneyInMachine += PRICE_OF_CAPPUCCINO
+                                    back = true
+                                }
+                            }
+                        }
 
-                    println("\nThe coffee machine has:\n" +
-                            "$waterInMachine ml of water\n" +
-                            "$milkInMachine ml of milk\n" +
-                            "$coffeeBeansInMachine g of coffee beans\n" +
-                            "$disposableCupsInMachine disposable cups\n" +
-                            "\$$moneyInMachine of money\n"
-                    )
-                }
-
-                "3" -> {
-                    waterInMachine -= WATER_PER_CAPPUCCINO
-                    milkInMachine -= MILK_PER_CAPPUCCINO
-                    coffeeBeansInMachine -= COFFEE_BEANS_PER_CAPPUCCINO
-                    disposableCupsInMachine -= 1
-                    moneyInMachine += PRICE_OF_CAPPUCCINO
-
-                    println("\nThe coffee machine has:\n" +
-                            "$waterInMachine ml of water\n" +
-                            "$milkInMachine ml of milk\n" +
-                            "$coffeeBeansInMachine g of coffee beans\n" +
-                            "$disposableCupsInMachine disposable cups\n" +
-                            "\$$moneyInMachine of money\n"
-                    )
+                        "back" -> back = true
+                        else -> println("Wrong input, try again.")
+                    }
                 }
             }
-        }
 
-        "fill" -> {
-            print("Write how many ml of water do you want to add: > ")
-            var temp = readln().toInt()
-            waterInMachine += temp
+            "fill" -> {
+                print("\nWrite how many ml of water do you want to add: > ")
+                var temp = readln().toInt()
+                waterInMachine += temp
 
-            print("Write how many ml of milk do you want to add: > ")
-            temp = readln().toInt()
-            milkInMachine += temp
+                print("Write how many ml of milk do you want to add: > ")
+                temp = readln().toInt()
+                milkInMachine += temp
 
-            print("Write how many grams of coffee beans do you want to add: > ")
-            temp = readln().toInt()
-            coffeeBeansInMachine += temp
+                print("Write how many grams of coffee beans do you want to add: > ")
+                temp = readln().toInt()
+                coffeeBeansInMachine += temp
 
-            print("Write how many disposable cups of coffee do you want to add: ")
-            temp = readln().toInt()
-            disposableCupsInMachine += temp
+                print("Write how many disposable cups of coffee do you want to add: ")
+                temp = readln().toInt()
+                disposableCupsInMachine += temp
+                println()
+            }
 
-            println("\nThe coffee machine has:\n" +
-                    "$waterInMachine ml of water\n" +
-                    "$milkInMachine ml of milk\n" +
-                    "$coffeeBeansInMachine g of coffee beans\n" +
-                    "$disposableCupsInMachine disposable cups\n" +
-                    "\$$moneyInMachine of money\n"
-            )
-        }
+            "take" -> {
+                println("\nI gave You $moneyInMachine")
+                moneyInMachine = 0
+                println()
+            }
 
-        "take" -> {
-            println("I gave You $moneyInMachine")
-            moneyInMachine = 0
+            "remaining" -> {
+                println(
+                    "\nThe coffee machine has:\n" +
+                            "$waterInMachine ml of water\n" +
+                            "$milkInMachine ml of milk\n" +
+                            "$coffeeBeansInMachine g of coffee beans\n" +
+                            "$disposableCupsInMachine disposable cups\n" +
+                            "\$$moneyInMachine of money\n"
+                )
 
-            println("\nThe coffee machine has:\n" +
-                    "$waterInMachine ml of water\n" +
-                    "$milkInMachine ml of milk\n" +
-                    "$coffeeBeansInMachine g of coffee beans\n" +
-                    "$disposableCupsInMachine disposable cups\n" +
-                    "\$$moneyInMachine of money\n"
-            )
+            }
+
+            "exit" -> exit = true
+            else -> println("Wrong input, try again.")
         }
     }
-
-
-//    print("Write how many ml of water the coffee machine has: > ")
-//    val water = readln().toInt()
-//    print("Write how many ml of milk the coffee machine has: > ")
-//    val milk = readln().toInt()
-//    print("Write how many grams of coffee beans the coffee machine has: > ")
-//    val coffeeBeans = readln().toInt()
-//    print("Write how many cups of coffee you will need: > ")
-//    val cups = readln().toInt()
-//
-//    val cupsInWater = water / 200               // 200ml of water is needed for 1 cup of coffee
-//    val cupsInMilk = milk / 50                  // 50ml of milk is needed for 1 cup of coffee
-//    val cupsInCoffeeBeans = coffeeBeans / 15    // 15g of CoffeeBeans is needed for 1 cup of coffee
-//
-//    val maxNumOfCups: Int =
-//            if (cupsInWater - cups <= cupsInMilk - cups && cupsInWater - cups <= cupsInCoffeeBeans - cups) {
-//                cupsInWater
-//            } else if (cupsInMilk - cups < cupsInWater - cups && cupsInMilk - cups < cupsInCoffeeBeans - cups) {
-//                cupsInMilk
-//            } else {
-//                cupsInCoffeeBeans
-//            }
-//
-//    println(maxNumOfCups)
-//
-//    if (maxNumOfCups == cups) {
-//        println("Yes, I can make that amount of coffee")
-//    } else if (maxNumOfCups > cups) {
-//        println("Yes, I can make that amount of coffee (and even ${maxNumOfCups - cups} more than that)")
-//    } else {
-//        println("No, I can make only $maxNumOfCups cups of coffee")
-//    }
-
 }
